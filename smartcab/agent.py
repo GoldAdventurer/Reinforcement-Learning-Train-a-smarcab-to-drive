@@ -8,7 +8,7 @@ class LearningAgent(Agent):
     """ An agent that learns to drive in the Smartcab world.
         This is the object you will be modifying. """ 
 
-    def __init__(self, env, learning=True, epsilon=1.0, alpha=0.9):
+    def __init__(self, env, learning=True, epsilon=1.0, alpha=0.95):
         super(LearningAgent, self).__init__(env)     # Set the agent in the evironment 
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
         self.valid_actions = self.env.valid_actions  # The set of valid actions
@@ -23,8 +23,8 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Set any additional class parameters as needed
-        self.trials = 1
-        self.a_const = 0.99
+        self.trials = 0
+        self.a_const = 0.01
 
 
     def reset(self, destination=None, testing=False):
@@ -43,18 +43,21 @@ class LearningAgent(Agent):
         #self.epsilon -= 0.05
         # Epsilon value for Q-learning
         self.trials += 1
-        #self.epsilon = math.exp(-0.9*self.trials)
+        #self.epsilon = math.exp(-0.999*self.trials)
         #self.epsilon = math.pow(self.a_const, self.trials)
-        self.epsilon = 1/(self.trials * self.trials)
+        #self.epsilon = 1.0 / (self.trials * self.trials)
+        #self.epsilon = math.cos(self.a_const * self.trials)
+        self.epsilon *= 0.995
+        print "trial/epsilon: {}/{}".format(self.trials, self.epsilon)
         
         # Update additional class parameters as needed
         #self.alpha *= math.exp(-0.1)
         # If 'testing' is True, set epsilon and alpha to 0
         if testing:
-            #self.epsilon = 0
-            #self.alpha = 0
-            epsilon = 0
-            alpha = 0
+            self.epsilon = 0
+            self.alpha = 0
+            #epsilon = 0
+            #alpha = 0
         return None
 
     def build_state(self):
