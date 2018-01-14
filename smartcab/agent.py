@@ -40,14 +40,14 @@ class LearningAgent(Agent):
         ###########
         # Update epsilon using a decay function of your choice
         # Epsilon calue for the default learning
-        #self.epsilon -= 0.05
+        # self.epsilon -= 0.05
         # Epsilon value for Q-learning
         self.trials += 1
         #self.epsilon = math.exp(-0.999*self.trials)
         #self.epsilon = math.pow(self.a_const, self.trials)
         #self.epsilon = 1.0 / (self.trials * self.trials)
-        #self.epsilon = math.cos(self.a_const * self.trials)
-        self.epsilon *= 0.995
+        self.epsilon = math.cos(self.a_const * self.trials)
+        #self.epsilon *= 0.95
         print "trial/epsilon: {}/{}".format(self.trials, self.epsilon)
         
         # Update additional class parameters as needed
@@ -81,7 +81,7 @@ class LearningAgent(Agent):
         
         # Set 'state' as a tuple of relevant data for the agent        
         #state = None
-        state = (waypoint, inputs['light'], inputs['left'],inputs['right'],inputs['oncoming'], deadline)
+        state = (waypoint, inputs['light'], inputs['left'], inputs['oncoming'])
 
         return state
 
